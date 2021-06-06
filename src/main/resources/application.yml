@@ -22,5 +22,5 @@ redis:
     maxWait: 30000
 
 email:
-  address: java.application.testing2021@gmail.com
-  password: testing2021
+  address: "java.application.testing2021@gmail.com"
+  password: "testing2021"

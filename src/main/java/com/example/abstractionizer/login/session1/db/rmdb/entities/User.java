@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
+import javax.servlet.http.HttpSessionBindingListener;
 import java.util.Date;
 
 @Data
@@ -18,6 +18,8 @@ import java.util.Date;
 public class User {
 
     @TableId(type = IdType.AUTO)
+    private Integer id;
+
     private String userName;
 
     private String password;
@@ -29,4 +31,5 @@ public class User {
     private Date lastLoginTime;
 
     private boolean status;
+
 }

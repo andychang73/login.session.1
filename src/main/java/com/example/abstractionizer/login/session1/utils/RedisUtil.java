@@ -49,9 +49,9 @@ public class RedisUtil {
 
     public boolean isKeyExists(@NonNull final String key){
         if(key.isEmpty()){
-            return true;
+            return false;
         }
-        return Objects.nonNull(this.redisTemplate.getExpire(key));
+        return Objects.nonNull(this.get(key, Object.class));
     }
 
     public long increment(@NonNull final String key, @NonNull long interval){
