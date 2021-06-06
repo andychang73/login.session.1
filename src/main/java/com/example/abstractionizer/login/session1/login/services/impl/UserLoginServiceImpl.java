@@ -41,6 +41,11 @@ public class UserLoginServiceImpl implements UserLoginService {
     }
 
     @Override
+    public void deleteUserLoggedIn(Integer id) {
+        redisUtil.delete(RedisConstant.getUserCurrentlyLoggedIn(id));
+    }
+
+    @Override
     public boolean isUserCurrentlyLoggedIn(Integer id) {
         return redisUtil.isKeyExists(RedisConstant.getUserCurrentlyLoggedIn(id));
     }

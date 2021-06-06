@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
-public class Controller {
+public class UserController {
 
     @Autowired
     private UserBusiness userBusiness;
@@ -53,28 +53,11 @@ public class Controller {
         userBusiness.updateUserInfo((UserInfo)request.getSession().getAttribute("user"), bo);
         return new SuccessResponse();
     }
-//    @GetMapping
-//    public void getSessionId(@RequestParam("username") String username, HttpServletRequest request){
-//        HttpSession session = request.getSession();
-//
-//        if(Objects.isNull(session)){
-//            log.info("================");
-//            return;
-//        }
-//        String sessionId = session.getId();
-//        User user = new User()
-//                .setUserName(username)
-//                .setPassword("123456")
-//                .setEmail("aaaa")
-//                .setPhone("1111111");
-//        log.info("session id: {}", session.getId());
-//        log.info("user: {}", user);
-//        session.setAttribute("user", user);
-//
-//        if(session.isNew()){
-//            log.info("new");
-//        }else{
-//            log.info("not new");
-//        }
-//    }
+
+    @GetMapping("/logout")
+    public SuccessResponse logout(HttpServletRequest request){
+        userBusiness.logout((UserInfo)request.getSession().getAttribute("user"));
+        request.getSession().invalidate();
+        return new SuccessResponse();
+    }
 }

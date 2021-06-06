@@ -16,7 +16,6 @@ import com.example.abstractionizer.login.session1.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -126,6 +125,11 @@ public class UserBusinessImpl implements UserBusiness {
         }
 
         userService.changePassword(user.getId(), MD5Util.md5(bo.getConfirmPassword()));
+    }
+
+    @Override
+    public void logout(UserInfo userInfo) {
+        userLoginService.deleteUserLoggedIn(userInfo.getId());
     }
 
     private UserInfo getUserInfo(User user){

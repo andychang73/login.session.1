@@ -8,5 +8,7 @@ public interface UserLoginService {
 
     void setUserLoggedIn(Integer id);
 
+    void deleteUserLoggedIn(Integer id);
+
     boolean isUserCurrentlyLoggedIn(Integer id);
 }

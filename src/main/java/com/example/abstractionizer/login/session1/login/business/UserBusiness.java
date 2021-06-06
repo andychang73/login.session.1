@@ -19,4 +19,6 @@ public interface UserBusiness {
     void updateUserInfo(UserInfo userInfo, UserUpdateInfoBo userUpdateInfoBo);
 
     void changePassword(UserInfo userInfo, ChangePasswordBo bo);
+
+    void logout(UserInfo userInfo);
 }
