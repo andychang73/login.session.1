@@ -29,27 +29,33 @@ public class Controller {
     }
 
     @GetMapping
-    public void getSessionId(@RequestParam("username") String username, HttpServletRequest request){
-        HttpSession session = request.getSession();
-
-        if(Objects.isNull(session)){
-            log.info("================");
-            return;
-        }
-        String sessionId = session.getId();
-        User user = new User()
-                .setUserName(username)
-                .setPassword("123456")
-                .setEmail("aaaa")
-                .setPhone("1111111");
-        log.info("session id: {}", session.getId());
-        log.info("user: {}", user);
-        session.setAttribute("user", user);
-
-        if(session.isNew()){
-            log.info("new");
-        }else{
-            log.info("not new");
-        }
+    public SuccessResponse validate(@RequestParam("token") String token){
+        userBusiness.validate(token);
+        return new SuccessResponse();
     }
+
+//    @GetMapping
+//    public void getSessionId(@RequestParam("username") String username, HttpServletRequest request){
+//        HttpSession session = request.getSession();
+//
+//        if(Objects.isNull(session)){
+//            log.info("================");
+//            return;
+//        }
+//        String sessionId = session.getId();
+//        User user = new User()
+//                .setUserName(username)
+//                .setPassword("123456")
+//                .setEmail("aaaa")
+//                .setPhone("1111111");
+//        log.info("session id: {}", session.getId());
+//        log.info("user: {}", user);
+//        session.setAttribute("user", user);
+//
+//        if(session.isNew()){
+//            log.info("new");
+//        }else{
+//            log.info("not new");
+//        }
+//    }
 }

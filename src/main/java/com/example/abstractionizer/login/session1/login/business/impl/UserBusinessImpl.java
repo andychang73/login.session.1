@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -38,21 +39,25 @@ public class UserBusinessImpl implements UserBusiness {
                 .setUserName(bo.getUserName())
                 .setPassword(MD5Util.md5(bo.getPassword()))
                 .setEmail(bo.getEmail())
-                .setPhone(bo.getPhone())
+                .setPhone(bo.getPhone() == null ? null : bo.getPhone())
                 .setStatus(true);
 
         String token = UUID.randomUUID().toString();
-        userRegistrationService.sendValidationMail(bo.getEmail(), token);
         userRegistrationService.setUserRegistrationInfo(token, user);
+        userRegistrationService.sendValidationMail(bo.getEmail(), token);
     }
 
     @Override
-    public void test(HttpServletRequest request) {
-        log.info("!!!");
-            HttpSession session = request.getSession();
-            for(String key : Collections.list(session.getAttributeNames())){
-                log.info("key : {}  value: {}", key, session.getAttribute(key));
-            }
-        log.info("@@@");
+    public void validate(String token) {
+        if(Objects.isNull(token) || token.isEmpty()){
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
+
+        User user = userRegistrationService.getUserRegistrationInfo(token).orElseThrow(()-> new CustomException(ErrorCode.ACCOUNT_VALIDATION_EXPIRED));
+
+        userService.create(user);
+        userRegistrationService.deleteCurrentlyRegisteringUserName(user.getUserName());
+        userRegistrationService.deleteUserRegistrationInfo(token);
     }
+
 }

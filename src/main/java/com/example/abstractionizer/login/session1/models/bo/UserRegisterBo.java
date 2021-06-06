@@ -19,7 +19,6 @@ public class UserRegisterBo {
     @Pattern(regexp = "^(.*)@(.*)$", message = "invalid format")
     private String email;
 
-    @NotEmpty(message = "cannot be null nor empty")
     @Pattern(regexp = "^09\\d{8}$", message = "invalid format")
     private String phone;
 

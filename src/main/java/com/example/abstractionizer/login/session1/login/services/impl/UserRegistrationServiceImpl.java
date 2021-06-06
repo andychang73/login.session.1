@@ -10,6 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -35,6 +36,11 @@ public class UserRegistrationServiceImpl implements UserRegistrationService{
     }
 
     @Override
+    public void deleteCurrentlyRegisteringUserName(String userName) {
+        redisUtil.delete(RedisConstant.getCurrentlyRegisteringUserName(userName));
+    }
+
+    @Override
     public void sendValidationMail(String to, String token) {
         javaMailSender.send(getSimpleMailMessage(to, token));
     }
@@ -42,6 +48,16 @@ public class UserRegistrationServiceImpl implements UserRegistrationService{
     @Override
     public void setUserRegistrationInfo(String token, User user) {
         redisUtil.set(RedisConstant.getUserRegisterInfo(token), user, duration, TimeUnit.MINUTES);
+    }
+
+    @Override
+    public Optional<User> getUserRegistrationInfo(String token) {
+        return Optional.ofNullable(redisUtil.get(RedisConstant.getUserRegisterInfo(token), User.class));
+    }
+
+    @Override
+    public void deleteUserRegistrationInfo(String token) {
+        redisUtil.delete(RedisConstant.getUserRegisterInfo(token));
     }
 
     private SimpleMailMessage getSimpleMailMessage(String to, String token){
