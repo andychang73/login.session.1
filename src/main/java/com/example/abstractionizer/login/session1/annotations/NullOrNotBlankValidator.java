@@ -7,6 +7,6 @@ import java.util.Objects;
 public class NullOrNotBlankValidator implements ConstraintValidator<NullOrNotBlank, String> {
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return !Objects.isNull(s) || s.trim().length() > 0;
+        return Objects.isNull(s) || s.trim().length() > 0;
     }
 }

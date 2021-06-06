@@ -23,7 +23,7 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException(CustomException ex){
-        return new ResponseEntity<>(new ErrorResponse<>(ex.getCode(), ex.getMsg(), ex.getMsg()), ex.getHttpStatus());
+        return new ResponseEntity<>(new ErrorResponse<>(ex.getCode(), ex.getMsg(), ex.getDetails()), ex.getHttpStatus());
     }
 
     @Override
